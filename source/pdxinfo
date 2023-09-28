@@ -1,6 +1,6 @@
-name=Crank Counts
+name=Crank Champ
 author=2RadDads
 description=Count all the cranks!
-bundleID=com.2raddads.crankcounts
+bundleID=com.2raddads.crankchamp
 version=1.0
 buildNumber=1
