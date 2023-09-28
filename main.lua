@@ -3,6 +3,7 @@ import "CoreLibs/crank"
 ticks = 0
 
 function playdate.update()
+	playdate.graphics.clear()
 	local x = 0
 	local y = 0
 	
