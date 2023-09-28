@@ -1,5 +1,14 @@
+import "CoreLibs/crank"
+
+ticks = 0
+
 function playdate.update()
 	local x = 0
 	local y = 0
-	playdate.graphics.drawText("hello world!", x, y)
+	
+	local newTicks = playdate.getCrankTicks(1)
+	ticks += newTicks
+	
+	local message = "ticks " .. ticks
+	playdate.graphics.drawText(message, x, y)
 end
