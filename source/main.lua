@@ -1,6 +1,8 @@
 import "CoreLibs/crank"
+import "CoreLibs/qrcode"
+import "CoreLibs/timer"
 
-isNormalMode = true
+isNormalMode = false
 
 local menu = playdate.getSystemMenu()
 
@@ -27,6 +29,10 @@ function playdate.update()
 		local message = "cranks " .. ticks
 		playdate.graphics.drawText(message, x, y)
 	else
+		playdate.graphics.generateQRCode("butts", nil, function(image, error)
+			image:draw(10, 10)
+		end)
+		playdate.timer.updateTimers()
 		playdate.graphics.drawText("qr code", 0, 0)
 	end
 end
