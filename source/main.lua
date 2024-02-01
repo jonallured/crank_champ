@@ -1,38 +1,40 @@
+import "CoreLibs/object"
+import "CoreLibs/graphics"
+import "CoreLibs/sprites"
+import "CoreLibs/timer"
 import "CoreLibs/crank"
 import "CoreLibs/qrcode"
-import "CoreLibs/timer"
 
-isNormalMode = false
+local gfx <const> = playdate.graphics
 
-local menu = playdate.getSystemMenu()
+local sprite = nil
 
-local menuItem, error = menu:addMenuItem("normal", function()
-	isNormalMode = true
-end)
+function renderNormalScreen()
+	if sprite then sprite:remove() end
+	
+	sprite = gfx.sprite.spriteWithText("normal screen", 100, 100)
+	sprite:moveTo(100, 100)
+	sprite:add()
+end
 
-local menuItem, error = menu:addMenuItem("code", function()
-	isNormalMode = false
-end)
+function renderQrCodeScreen()
+	if sprite then sprite:remove() end
+	
+	sprite = gfx.sprite.spriteWithText("qr code screen", 100, 100)
+	sprite:moveTo(100, 100)
+	sprite:add()
+end
 
-ticks = 0
+function init()
+	local menu = playdate.getSystemMenu()
+	menu:addMenuItem("normal", renderNormalScreen)
+	menu:addMenuItem("code", renderQrCodeScreen)
+	renderNormalScreen()
+end
 
 function playdate.update()
-	playdate.graphics.clear()
-	
-	if isNormalMode then
-		local x = 10
-		local y = 10
-		
-		local newTicks = math.abs(playdate.getCrankTicks(1))
-		ticks += newTicks
-		
-		local message = "cranks " .. ticks
-		playdate.graphics.drawText(message, x, y)
-	else
-		playdate.graphics.generateQRCode("butts", nil, function(image, error)
-			image:draw(10, 10)
-		end)
-		playdate.timer.updateTimers()
-		playdate.graphics.drawText("qr code", 0, 0)
-	end
+	gfx.sprite.update()
+	playdate.timer.updateTimers()
 end
+
+init()
