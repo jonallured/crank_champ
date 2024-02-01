@@ -2,10 +2,14 @@ local gfx <const> = playdate.graphics
 
 class('NormalScreen').extends()
 
+function NormalScreen:init(gameData)
+	self.gameData = gameData
+end
+
 function NormalScreen:render()
 	self:clear()
 	
-	local sprite = gfx.sprite.spriteWithText("normal screen", 100, 100)
+	local sprite = gfx.sprite.spriteWithText(self.gameData:crankCount(), 100, 100)
 	sprite:moveTo(100, 100)
 	sprite:add()
 	

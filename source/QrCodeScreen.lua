@@ -2,16 +2,31 @@ local gfx <const> = playdate.graphics
 
 class('QrCodeScreen').extends()
 
+function QrCodeScreen:init(gameData)
+	self.gameData = gameData
+end
+
 function QrCodeScreen:render()
 	self:clear()	
 	
-	local sprite = gfx.sprite.spriteWithText("qr code screen", 100, 100)
-	sprite:moveTo(100, 100)
-	sprite:add()
+	local loadingSprite = gfx.sprite.spriteWithText("loading...", 100, 100)
+	loadingSprite:moveTo(100, 100)
+	loadingSprite:add()
 	
-	self.sprite = sprite
+	self.loadingSprite = loadingSprite
+	
+	local url = "https://app.jonallured.com/cranks?count=" .. self.gameData.ticks
+	gfx.generateQRCode(url, nil, function(image, error)
+		self:clear()
+		
+		local qrCodeSprite = gfx.sprite.new(image)
+		qrCodeSprite:moveTo(100, 100)
+		qrCodeSprite:add()
+		self.qrCodeSprite = qrCodeSprite
+	end)
 end
 
 function QrCodeScreen:clear()
-	if self.sprite then self.sprite:remove() end
+	if self.loadingSprite then self.loadingSprite:remove() end
+	if self.qrCodeSprite then self.qrCodeSprite:remove() end
 end

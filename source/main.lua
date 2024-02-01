@@ -5,13 +5,15 @@ import "CoreLibs/timer"
 import "CoreLibs/crank"
 import "CoreLibs/qrcode"
 
+import "GameData"
 import "NormalScreen"
 import "QrCodeScreen"
 
 local gfx <const> = playdate.graphics
 
-local normalScreen = NormalScreen()
-local qrCodeScreen = QrCodeScreen()
+local gameData = GameData()
+local normalScreen = NormalScreen(gameData)
+local qrCodeScreen = QrCodeScreen(gameData)
 
 function init()
 	local menu = playdate.getSystemMenu()
@@ -23,6 +25,14 @@ function init()
 		normalScreen:clear()
 		qrCodeScreen:render()
 	end)
+	normalScreen:render()
+end
+
+function playdate.cranked()
+	local newTicks = playdate.getCrankTicks(1) or 0
+	if newTicks == 0 then return end
+	
+	gameData.ticks += newTicks
 	normalScreen:render()
 end
 
