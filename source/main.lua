@@ -5,31 +5,25 @@ import "CoreLibs/timer"
 import "CoreLibs/crank"
 import "CoreLibs/qrcode"
 
+import "NormalScreen"
+import "QrCodeScreen"
+
 local gfx <const> = playdate.graphics
 
-local sprite = nil
-
-function renderNormalScreen()
-	if sprite then sprite:remove() end
-	
-	sprite = gfx.sprite.spriteWithText("normal screen", 100, 100)
-	sprite:moveTo(100, 100)
-	sprite:add()
-end
-
-function renderQrCodeScreen()
-	if sprite then sprite:remove() end
-	
-	sprite = gfx.sprite.spriteWithText("qr code screen", 100, 100)
-	sprite:moveTo(100, 100)
-	sprite:add()
-end
+local normalScreen = NormalScreen()
+local qrCodeScreen = QrCodeScreen()
 
 function init()
 	local menu = playdate.getSystemMenu()
-	menu:addMenuItem("normal", renderNormalScreen)
-	menu:addMenuItem("code", renderQrCodeScreen)
-	renderNormalScreen()
+	menu:addMenuItem("normal", function()
+		qrCodeScreen:clear()
+		normalScreen:render()
+	end)
+	menu:addMenuItem("code", function()
+		normalScreen:clear()
+		qrCodeScreen:render()
+	end)
+	normalScreen:render()
 end
 
 function playdate.update()
