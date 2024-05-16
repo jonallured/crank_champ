@@ -18,7 +18,7 @@ local userData = UserData()
 local userScreen = UserScreen(userData)
 local gameData = GameData()
 local normalScreen = NormalScreen(gameData)
-local qrCodeScreen = QrCodeScreen(gameData)
+local qrCodeScreen = QrCodeScreen(gameData, userData)
 
 function init()
 	local menu = playdate.getSystemMenu()
