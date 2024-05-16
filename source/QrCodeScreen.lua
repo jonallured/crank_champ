@@ -8,7 +8,8 @@ function QrCodeScreen:init(gameData, userData)
 end
 
 function QrCodeScreen:render()
-	self:clear()	
+	self:clear()
+	self.gameData:save()
 	
 	local loadingSprite = gfx.sprite.spriteWithText("loading...", 100, 100)
 	loadingSprite:moveTo(100, 100)

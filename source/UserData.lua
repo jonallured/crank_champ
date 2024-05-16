@@ -10,7 +10,7 @@ function UserData:verify()
 end
 
 function UserData:save()
-	local table = {}
+	local table = playdate.datastore.read()
 	table["userCode"] = self.code
 	playdate.datastore.write(table)
 end
