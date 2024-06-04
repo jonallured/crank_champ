@@ -11,6 +11,7 @@ import "UserData"
 import "UserScreen"
 import "NormalScreen"
 import "QrCodeScreen"
+import "SpriteScreen"
 
 local gfx <const> = playdate.graphics
 
@@ -19,6 +20,7 @@ local userScreen = UserScreen(userData)
 local gameData = GameData()
 local normalScreen = NormalScreen(gameData)
 local qrCodeScreen = QrCodeScreen(gameData, userData)
+local spriteScreen = SpriteScreen()
 
 function init()
 	local menu = playdate.getSystemMenu()
@@ -30,19 +32,31 @@ function init()
 		normalScreen:clear()
 		qrCodeScreen:render()
 	end)
+	menu:addMenuItem("sprites", function()
+		normalScreen:clear()
+		qrCodeScreen:clear()
+		spriteScreen:init()
+	end)
+
 	if userData:verify() then
-		normalScreen:render()
+		-- normalScreen:render()
 	else
 		userScreen:render()
 	end
 end
 
+-- function playdate.cranked()
+-- 	local newTicks = playdate.getCrankTicks(1) or 0
+-- 	if newTicks == 0 then return end
+
+-- 	gameData.ticks += newTicks
+-- 	normalScreen:render()
+-- end
+
 function playdate.cranked()
-	local newTicks = playdate.getCrankTicks(1) or 0
-	if newTicks == 0 then return end
-	
-	gameData.ticks += newTicks
-	normalScreen:render()
+	local position = playdate.getCrankPosition() or 0
+
+	spriteScreen:update(position)
 end
 
 function playdate.keyboard.textChangedCallback()
