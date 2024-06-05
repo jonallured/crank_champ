@@ -4,7 +4,7 @@ local sprite <const> = gfx.sprite
 class('SpriteScreen').extends()
 
 function SpriteScreen:init()
-  local starImage = gfx.image.new("assets/star.png")
+  local starImage = gfx.image.new("assets/star-no-dither.png")
   local starSprite = sprite.new(starImage)
   starSprite:moveTo(250, 100)
   starSprite:add()
