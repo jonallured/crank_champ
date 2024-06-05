@@ -53,10 +53,20 @@ end
 -- 	normalScreen:render()
 -- end
 
-function playdate.cranked()
-	local position = playdate.getCrankPosition() or 0
+-- function playdate.cranked()
+-- 	local position = playdate.getCrankPosition() or 0
 
-	spriteScreen:update(position)
+-- 	spriteScreen:update(position)
+-- end
+
+-- sjh look here
+function playdate.cranked()
+	local newTicks = playdate.getCrankTicks(5) or 0
+	if newTicks == 0 then return end
+
+	gameData.ticks += newTicks
+
+	spriteScreen:update(gameData.ticks % 5)
 end
 
 function playdate.keyboard.textChangedCallback()
