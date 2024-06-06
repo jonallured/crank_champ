@@ -10,7 +10,7 @@ function GameData:crankCount()
 end
 
 function GameData:save()
-	local table = playdate.datastore.read()
+	local table = playdate.datastore.read() or {}
 	table["ticks"] = self.ticks
 	playdate.datastore.write(table)
 end
